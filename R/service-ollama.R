@@ -1,11 +1,11 @@
 ollama_api_url <- function() {
-  Sys.getenv("OLLAMA_HOST", "http://localhost:11434")
+  Sys.getenv("OLLAMA_HOST", "http://localhost:11535")
 }
 
 ollama_set_task <- function(task) {
   ollama_api_url() |>
     request() |>
-    req_url_path_append("api") |>
+    req_url_path_append("v1") |>
     req_url_path_append(task)
 }
 
@@ -68,6 +68,7 @@ ollama_chat <- function(model, messages, stream = TRUE, shiny_session = NULL, us
   )
 
   request <- ollama_set_task("chat") |>
+    req_url_path_append("completions") |>
     req_body_json(data = body)
 
 
